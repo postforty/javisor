@@ -2,7 +2,8 @@
 
 ## 1. 프로젝트 구조 및 스택
 - `apps/web`: Next.js 16 (App Router), React 19, Tailwind CSS v4 (포트: 3000)
-- `apps/api`: FastAPI, Python 3.12+, Pydantic v2 (포트: 8000)
+- `apps/api`: FastAPI, Python 3.12+, Pydantic v2, LangChain (포트: 8000)
+- `LLM 엔진`: Google Gemini (기본: `gemini-3.8-flash`, 초저지연/대체: `gemini-3.5-flash-lite`)
 - `workspace/troubleshooting/`: 버그 해결 및 프롬프트 오케스트레이션 기록
 
 ## 2. 주요 명령어
@@ -24,7 +25,9 @@
    - `entities/`: 도메인 모델 / `shared/`: 공통 컴포넌트 및 유틸
 4. **E2E 검증**: API 연동 및 브라우저 검증 완료 후 다음 기능 진행
 
-- **가이드라인 준수**: 코딩 스타일(`.agents/skills/coding-guidelines/SKILL.md`), UI 스타일(`DESIGN.md`)
+- **가이드라인 준수**:
+  - 코딩 스타일: `.agents/skills/coding-guidelines/SKILL.md`
+  - UI/스타일: 프런트엔드 UI 개발 시 `DESIGN.md`를 필수로 참조하여 테마 및 스타일 가이드 준수
 - **언어 규칙**: 모든 사용자 응답/설명 및 소스 코드 주석은 **한국어** 작성
 
 ## 5. 트러블슈팅 문서화
