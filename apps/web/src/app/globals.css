@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  --font-space-grotesk: var(--font-space-grotesk), sans-serif;
+  --font-inter: var(--font-inter), sans-serif;
+
+  /* Kinetic Arc HUD 테마 색상 (DESIGN.md 규격) */
+  --color-surface: #0f131d;
+  --color-surface-dim: #0f131d;
+  --color-surface-bright: #353944;
+  --color-surface-container-lowest: #0a0e18;
+  --color-surface-container-low: #171b26;
+  --color-surface-container: #1c1f2a;
+  --color-surface-container-high: #262a35;
+  --color-surface-container-highest: #313540;
+  
+  --color-on-surface: #dfe2f1;
+  --color-on-surface-variant: #e6bdb8;
+  --color-inverse-surface: #dfe2f1;
+  --color-inverse-on-surface: #2c303b;
+  --color-outline: #ac8884;
+  --color-outline-variant: #5c403c;
+
+  /* Hot Rod Red (Primary) */
+  --color-primary: #ffb4ab;
+  --color-on-primary: #690005;
+  --color-primary-container: #dc2626;
+  --color-on-primary-container: #fff6f5;
+  --color-inverse-primary: #bf0715;
+
+  /* Stark Gold / Amber (Secondary) */
+  --color-secondary: #ffb95f;
+  --color-on-secondary: #472a00;
+  --color-secondary-container: #ee9800;
+  --color-on-secondary-container: #5b3800;
+
+  /* Arc Reactor Cyan (Tertiary) */
+  --color-tertiary: #4cd7f6;
+  --color-on-tertiary: #003640;
+  --color-tertiary-container: #007d92;
+  --color-on-tertiary-container: #edfaff;
+
+  /* Status Colors */
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+
+  /* 라운드 코너 */
+  --radius-hud-sm: 0.25rem;
+  --radius-hud-md: 0.5rem;
+  --radius-hud-lg: 1rem;
+  --radius-hud-xl: 1.5rem;
+}
+
+/* 고성능 HUD 사이버네틱 애니메이션 */
+@keyframes coreFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-4px) scale(1.02); }
+}
+
+@keyframes precisionSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes reversePrecisionSpin {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes hudGlowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 16px rgba(220, 38, 38, 0.45));
+    opacity: 0.85;
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(76, 215, 246, 0.65)) drop-shadow(0 0 16px rgba(220, 38, 38, 0.7));
+    opacity: 1;
+  }
+}
+
+@keyframes typingBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-core-float {
+  animation: coreFloat 5s ease-in-out infinite;
+}
+
+.animate-precision-spin {
+  animation: precisionSpin 60s linear infinite;
+}
+
+.animate-reverse-precision {
+  animation: reversePrecisionSpin 40s linear infinite;
+}
+
+.animate-hud-glow {
+  animation: hudGlowPulse 3.5s ease-in-out infinite;
+}
+
+.animate-typing-cursor {
+  animation: typingBlink 0.9s infinite;
+}
+
+/* 전역 베이스 스타일 */
+body {
+  background-color: #08090C;
+  color: #dfe2f1;
+  font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+/* 스크롤바 커스텀 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0e18;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c1f2a;
+  border-radius: 3px;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #dc2626;
+}

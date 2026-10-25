@@ -1,0 +1,19 @@
+{
+  "name": "javisor-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev -w web",
+    "dev:api": "uv run --directory apps/api uvicorn app.main:app --reload --port 8000",
+    "test:api": "uv run --directory apps/api pytest",
+    "build": "npm run build -w web",
+    "lint": "npm run lint -w web"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "자비서 (javisor) - 지능형 개인 비서 서비스 모노레포"
+}

@@ -4,7 +4,7 @@
 - `apps/web`: Next.js 16 (App Router), React 19, Tailwind CSS v4 (포트: 3000)
 - `apps/api`: FastAPI, Python 3.12+, Pydantic v2, LangChain (포트: 8000)
 - `LLM 엔진`: Google Gemini (기본: `gemini-3.8-flash`, 초저지연/대체: `gemini-3.5-flash-lite`)
-- `workspace/troubleshooting/`: 버그 해결 및 프롬프트 오케스트레이션 기록
+- `workspace/troubleshooting/`: 인간 개발자의 실제 프롬프트 기반 버그 해결 및 오케스트레이션 기록
 
 ## 2. 주요 명령어
 - 실행 및 검증: `npm run dev:api` | `npm run dev:web` | `npm run test:api` | `npm run build` | `npm run lint`
@@ -31,6 +31,15 @@
 - **언어 규칙**: 모든 사용자 응답/설명 및 소스 코드 주석은 **한국어** 작성
 
 ## 5. 트러블슈팅 문서화
-- **사전 참조**: 작업 전 `workspace/troubleshooting/` 기존 해결 패턴 확인
-- **기록 작성**: `workspace/troubleshooting/[번호]-[키워드].md` 작성 후 `README.md` 목록 갱신
-- **핵심 기록**: 개발자의 실제 프롬프트와 지시 의도(Prompt Orchestration) 반드시 포함
+- **작성 목적**: 인간 개발자가 AI 에이전트와 페어 프로그래밍 중 발생한 실제 문제와 해결 과정을 기록
+- **실제 프롬프트 원문 필수 (가상 창작 엄격 금지)**:
+  - 세션창에서 개발자가 **실제로 입력한 프롬프트 원문**과 지시 의도만 기록합니다. 가상의 프롬프트나 대화를 임의로 지어내는 것은 엄격히 금지됩니다.
+  - 개발자가 직접 프롬프트로 문제를 지적하고 해결을 유도한 실제 사례가 없을 때는 문서를 임의로 작성하지 않습니다.
+- **문서 필수 구성**:
+  1. 실제 발생한 문제 상황 및 에러 로그
+  2. 개발자의 실제 프롬프트 원문 및 지시 의도 (Prompt Orchestration)
+  3. AI 에이전트의 해결 조치 및 코드 반영
+  4. 검증 결과 및 교훈
+- **절차**:
+  - 작업 전 `workspace/troubleshooting/` 기존 패턴 사전 참조
+  - 실제 트러블슈팅 발생 시 `workspace/troubleshooting/[번호]-[키워드].md` 작성 후 `AGENTS.md` 목록 갱신
