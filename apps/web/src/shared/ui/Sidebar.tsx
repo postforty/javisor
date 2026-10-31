@@ -41,7 +41,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onNewSession }) => {
             <div className="w-3 h-3 rounded-full bg-[#dc2626] shadow-[0_0_12px_#dc2626] animate-pulse" />
             <div className="flex flex-col">
               <span className="font-['Space_Grotesk'] text-[15px] font-bold uppercase tracking-wider text-slate-100">
-                JAVISOR
+                JARVISOR
               </span>
               <span className="font-mono text-[9px] text-[#4cd7f6] tracking-widest uppercase">
                 STARK HUD v8.5
