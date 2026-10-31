@@ -59,16 +59,16 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </div>
 
-          {/* 새 세션 생성 버튼 (모바일 및 컴팩트) */}
+          {/* 새 세션 생성 버튼 (원형 + 아이콘 단독) */}
           <button
             onClick={onNewSession}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#121620] hover:bg-[#181e2b] text-slate-200 hover:text-white shadow-[0_2px_10px_rgba(0,0,0,0.4)] active:scale-95 transition-all text-[11px] font-mono tracking-wider border border-white/10 hover:border-[#ffb95f]/40 cursor-pointer"
+            aria-label="새 세션 시작"
+            title="새 세션 시작"
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-[#121620] hover:bg-[#181e2b] text-slate-200 hover:text-white shadow-[0_2px_10px_rgba(0,0,0,0.4)] active:scale-95 transition-all border border-white/10 hover:border-[#ffb95f]/40 cursor-pointer"
           >
-            {/* 확대된 + 기호 */}
-            <span className="text-[15px] font-bold leading-none text-slate-100 select-none">
-              +
+            <span className="material-symbols-outlined text-[20px] leading-none select-none">
+              add
             </span>
-            <span className="font-medium">NEW SESSION</span>
           </button>
         </div>
       </div>

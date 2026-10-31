@@ -12,6 +12,10 @@ export interface ChatMessage {
   content: string;
   timestamp: string;
   model?: ModelType;
+  errorInfo?: {
+    message: string;
+    isOverloaded?: boolean;
+  };
 }
 
 export interface SessionData {

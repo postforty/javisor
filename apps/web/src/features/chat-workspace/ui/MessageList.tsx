@@ -35,7 +35,16 @@ export const MessageList: React.FC<MessageListProps> = ({
         const isUser = msg.role === 'user';
         const isLatestAssistant = !isUser && index === messages.length - 1;
         const showDelayNotice =
-          isLatestAssistant && isGenerating && isDelayed && !msg.content;
+          isLatestAssistant && isGenerating && isDelayed && !msg.content && !msg.errorInfo;
+
+        // 모델 과부하(503) 또는 통신 오류 감지
+        const hasOverloadError =
+          Boolean(msg.errorInfo?.isOverloaded) ||
+          msg.content.includes('503 UNAVAILABLE') ||
+          msg.content.includes('high demand') ||
+          (msg.content.includes('[코어 텔레메트리 알림]') && msg.content.includes('503'));
+
+        const hasGeneralError = Boolean(msg.errorInfo && !hasOverloadError);
 
         return (
           <div
@@ -63,11 +72,43 @@ export const MessageList: React.FC<MessageListProps> = ({
               className={`max-w-[90%] md:max-w-[80%] rounded-2xl px-5 py-3.5 text-sm leading-relaxed whitespace-pre-wrap break-words transition-all ${
                 isUser
                   ? 'bg-[#1c1f2a] text-slate-100 border border-white/[0.08] shadow-[0_4px_16px_rgba(0,0,0,0.3)] rounded-tr-sm'
-                  : 'bg-[#0f131d]/90 text-slate-100 border border-[#dc2626]/25 shadow-[0_0_16px_rgba(220,38,38,0.1)] rounded-tl-sm'
+                  : hasOverloadError
+                    ? 'bg-[#171b26]/95 text-slate-100 border border-[#ffb95f]/50 shadow-[0_0_20px_rgba(255,185,95,0.15)] rounded-tl-sm'
+                    : 'bg-[#0f131d]/90 text-slate-100 border border-[#dc2626]/25 shadow-[0_0_16px_rgba(220,38,38,0.1)] rounded-tl-sm'
               }`}
             >
-              {/* 서비스 응답 지연 시 HUD 알림 및 대체 모델 전환 카드 */}
-              {showDelayNotice ? (
+              {/* 1. 모델 과부하(503) 에러 시: 모델 전환 재시도 카드 유지 */}
+              {hasOverloadError ? (
+                <div className="flex flex-col gap-3 py-1 text-slate-200">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#ffb95f] shadow-[0_0_8px_#ffb95f]" />
+                    <span className="font-mono text-xs font-semibold tracking-wider text-[#ffb95f] uppercase">
+                      TELEMETRY // MODEL OVERLOAD (503)
+                    </span>
+                  </div>
+                  <div className="text-xs md:text-sm text-slate-300 space-y-1">
+                    <p className="font-medium text-amber-200">
+                      <span className="font-semibold text-white">표준 지능 (3.8 Flash)</span> 모델의 일시적인 글로벌 트래픽 급증으로 응답 생성에 실패했습니다.
+                    </p>
+                    <p className="text-slate-400 text-xs">
+                      대기 시간 없이 즉시 응답이 가능한 초저지연 (3.5 Lite) 모델로 전환하여 답변을 생성하시겠습니까?
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 pt-1">
+                    {onSwitchModel && (
+                      <button
+                        type="button"
+                        onClick={() => onSwitchModel('gemini-3.5-flash-lite')}
+                        className="px-3.5 py-1.5 rounded-lg bg-[#ffb95f] hover:bg-[#e0a04b] text-[#2a1700] font-['Space_Grotesk'] text-xs font-bold tracking-wide shadow-[0_0_12px_rgba(255,185,95,0.4)] active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
+                      >
+                        <span className="material-symbols-outlined text-[16px]">bolt</span>
+                        <span>초저지연 (3.5 Lite) 모델로 전환하여 재시도</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ) : showDelayNotice ? (
+                /* 2. 서비스 응답 지연 중(4초 초과)일 때: 지연 안내 및 모델 전환 카드 */
                 <div className="flex flex-col gap-3 py-1 text-slate-200">
                   {/* 지연 알림 헤더 */}
                   <div className="flex items-center gap-2">
@@ -119,7 +160,17 @@ export const MessageList: React.FC<MessageListProps> = ({
                     )}
                   </div>
                 </div>
+              ) : hasGeneralError ? (
+                /* 3. 일반 에러 발생 시 */
+                <div className="flex flex-col gap-2 py-1 text-red-300">
+                  <div className="flex items-center gap-2 text-[#ffb4ab]">
+                    <span className="material-symbols-outlined text-[16px]">error</span>
+                    <span className="font-mono text-xs font-semibold">통신 링크 결함</span>
+                  </div>
+                  <p className="text-xs text-slate-300">{msg.errorInfo?.message}</p>
+                </div>
               ) : (
+                /* 4. 정상 텍스트 및 스트리밍 타이핑 */
                 <>
                   {msg.content}
                   {/* 타이핑 중 커서 효과 */}

@@ -61,6 +61,5 @@ async def stream_chat_response(
                 yield chunk.text
 
     except Exception as e:
-        # API 키가 유효하지 않거나 연결 실패 시 사용자 친화적인 HUD 안내 메시지 스트리밍
-        error_msg = f"[코어 텔레메트리 알림] 모델({model_type}) 연동 중 통신 지연 또는 인증 오류가 감지되었습니다: {str(e)}"
-        yield error_msg
+        # 예외를 상위 SSE 라우터로 전달하여 에러 이벤트(type: "error")로 처리하도록 함
+        raise RuntimeError(f"모델({model_type}) 스트리밍 통신 실패: {str(e)}") from e
