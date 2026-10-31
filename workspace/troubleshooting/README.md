@@ -12,4 +12,5 @@
 | 번호 | 문서 | 핵심 문제 | 프롬프트 오케스트레이션 요약 |
 | :--- | :--- | :--- | :--- |
 | 01 | [01-uv-trampoline-canonicalize-error.md](./01-uv-trampoline-canonicalize-error.md) | Windows uv trampoline 경로 정규화 실패 | `npm run dev:api` 실행 에러 로그를 제공하여 모듈 직접 로드 방식(`python -m`)으로 스크립트 수정 유도 |
+| 02 | [02-material-symbols-font-class-missing.md](./02-material-symbols-font-class-missing.md) | Next.js 16/Tailwind v4 환경 Material Symbols 아이콘 미표시 | 캡처 이미지로 원인 분석 유도 후, 지속 증상에 대해 빌드 번들러의 `@import` 탈락 원인을 역추적하여 `<head>` 직결 `<link>` 방식으로 최종 해결 유도 |
 
