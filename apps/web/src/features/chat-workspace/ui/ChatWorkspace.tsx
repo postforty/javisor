@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ArcReactorCore } from '@/shared/ui/ArcReactorCore';
-import { QuickActionGrid } from './QuickActionGrid';
 import { MessageList } from './MessageList';
 import { ChatInputBar } from './ChatInputBar';
 import { useChatStream } from '../model/useChatStream';
@@ -41,10 +40,6 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
     inputRef.current?.focus();
   }, [resetCount]);
 
-  const handleSelectQuickAction = (promptText: string) => {
-    sendMessage(promptText);
-  };
-
   const handleToggleListening = () => {
     setIsListening((prev) => !prev);
   };
@@ -62,7 +57,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
       {/* 중앙 메인 컨텐츠 영역 */}
       <div className="flex-1 w-full flex flex-col justify-center items-center z-10 overflow-y-auto">
         {!hasMessages ? (
-          /* 대기 상태: 대형 아크 리액터 코어 + 타이틀 + 4종 퀵 액션 카드 */
+          /* 대기 상태: 대형 아크 리액터 코어 + 타이틀 */
           <div className="w-full max-w-4xl mx-auto px-4 py-8 flex flex-col items-center">
             {/* 상단 텔레메트리 뱃지 */}
             <div className="flex flex-wrap items-center justify-center gap-2 mb-6">
@@ -95,7 +90,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
             </div>
 
             {/* 메인 타이틀 블록 */}
-            <div className="flex flex-col items-center text-center gap-1.5 mb-8">
+            <div className="flex flex-col items-center text-center gap-1.5">
               <h1 className="font-['Space_Grotesk'] text-2xl md:text-3xl font-bold tracking-tight text-slate-100">
                 무엇을 도와드릴까요,{' '}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#dc2626] via-[#ffb95f] to-[#dc2626]">
@@ -103,12 +98,9 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
                 </span>
               </h1>
               <p className="font-sans text-xs md:text-sm text-slate-400 tracking-wide">
-                자비서(javisor) 지능형 개인 비서 대기 중. 명령을 수신할 준비가 되었습니다.
+                자비서(jarvisor) 지능형 개인 비서 대기 중. 명령을 수신할 준비가 되었습니다.
               </p>
             </div>
-
-            {/* 4종 선제적 퀵 액션 그리드 */}
-            <QuickActionGrid onSelectAction={handleSelectQuickAction} />
           </div>
         ) : (
           /* 대화 스트림 상태: 상단 미니 HUD + 메시지 목록 */
@@ -116,7 +108,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
             <div className="py-2 px-4 border-b border-white/[0.06] bg-[#0a0e18]/60 flex items-center justify-between text-[11px] font-mono">
               <div className="flex items-center gap-2">
                 <ArcReactorCore size="sm" isGenerating={isGenerating} />
-                <span className="text-[#4cd7f6] font-semibold">JAVISOR PROTOCOL ACTIVE</span>
+                <span className="text-[#4cd7f6] font-semibold">JARVISOR PROTOCOL ACTIVE</span>
               </div>
               <span className="text-slate-400">SESSION MESSAGES: {messages.length}</span>
             </div>
