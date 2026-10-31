@@ -16,7 +16,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "자비서 (javisor) | STARK HUD MK-85",
+  title: "자비서 (jarvisor) | STARK HUD MK-85",
   description: "영화 '아이언맨'의 JARVIS HUD 비주얼 테마를 모티브로 한 미래지향적 인터페이스 기반 지능형 개인 비서 서비스",
   icons: {
     icon: "/favicon.ico",

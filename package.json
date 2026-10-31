@@ -1,5 +1,5 @@
 {
-  "name": "javisor-monorepo",
+  "name": "jarvisor-monorepo",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
@@ -15,5 +15,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "자비서 (javisor) - 지능형 개인 비서 서비스 모노레포"
+  "description": "자비서 (jarvisor) - 지능형 개인 비서 서비스 모노레포"
 }

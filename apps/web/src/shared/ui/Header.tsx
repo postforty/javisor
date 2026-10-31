@@ -25,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="md:hidden flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-[#dc2626] shadow-[0_0_8px_#dc2626]" />
             <span className="font-['Space_Grotesk'] text-sm font-bold uppercase tracking-wider text-slate-100">
-              JAVISOR
+              JARVISOR
             </span>
             <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-[#1c1f2a] text-[#ffb4ab] border border-red-500/30">
               MK-85

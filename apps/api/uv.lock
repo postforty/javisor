@@ -46,6 +46,7 @@ dependencies = [
     { name = "google-genai" },
     { name = "httpx" },
     { name = "langchain" },
+    { name = "langchain-cloudflare" },
     { name = "langchain-google-genai" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
@@ -66,6 +67,7 @@ requires-dist = [
     { name = "google-genai", specifier = ">=2.33.0" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "langchain", specifier = ">=1.4.7" },
+    { name = "langchain-cloudflare", specifier = ">=0.4.3" },
     { name = "langchain-google-genai", specifier = ">=4.4.2" },
     { name = "pydantic", specifier = ">=2.14.1" },
     { name = "pydantic-settings", specifier = ">=2.16.1" },
@@ -673,6 +675,24 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/d1/6b/7147b4cfa86091e05e3c0189952d976e13ef27249c8cd9e46d8c742a5b5c/langchain-1.4.7.tar.gz", hash = "sha256:818275348cd707f7fbbe92ece0a725c25823140a054cf29865f420e0200fa2af", size = 762840, upload-time = "2026-10-21T21:39:01.141Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/93/2e/86a102e61fc88ede073aebdb795fef0eb058a887bed4aa862e8ca2697565/langchain-1.4.7-py3-none-any.whl", hash = "sha256:bc40d4a9a46f0c3d75e316c0e576931fe19bceef83912a71dc1e0df781eb8f82", size = 170549, upload-time = "2026-10-21T21:38:59.466Z" },
+]
+
+[[package]]
+name = "langchain-cloudflare"
+version = "0.4.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "langchain-core" },
+    { name = "pydantic" },
+    { name = "requests" },
+    { name = "sqlalchemy" },
+    { name = "sqlalchemy-cloudflare-d1" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8b/36/6313f7f1bc98f05c7d2ba2189510a5a48669aa2ce373010d9c9e60a288d0/langchain_cloudflare-0.4.3.tar.gz", hash = "sha256:b6a542c8fa81a1292a3e3c4a634ca74388d6efc6ebb738dcab38215cbd59c2b4", size = 458607, upload-time = "2026-10-21T04:40:47.339Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4a/00/42ffbdbbd8d14e744bd7bef717591760b7bf29d1ce5551711b54b76bce2f/langchain_cloudflare-0.4.3-py3-none-any.whl", hash = "sha256:a7444129a35488f3b75b15a5fe30f7e4677cc9a91fdf5a767de11b13c44763f6", size = 94995, upload-time = "2026-10-21T04:40:45.986Z" },
 ]
 
 [[package]]
@@ -1307,6 +1327,20 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/66/25/2182431a4955adfeab69a89e7e4e81eaabbfbf1846ff8634b0f9448fd6cd/sqlalchemy-2.1.6-cp315-cp315t-win_amd64.whl", hash = "sha256:a053a9d9c9ccc9b72d90ecdcbabcbe57446defc7e8c52fc9978188f78742ac19", size = 2510428, upload-time = "2026-10-21T18:11:59.23Z" },
     { url = "https://files.pythonhosted.org/packages/b3/69/e290384d311e6e2c495734673bdbd2e358dc6725e7c1525326eb8e34af8d/sqlalchemy-2.1.6-cp315-cp315t-win_arm64.whl", hash = "sha256:61dc3fa488208a2f03e0e25ad32950dc024545291acc7348f2e550ea1bc5abb4", size = 2429115, upload-time = "2026-10-21T18:48:28.987Z" },
     { url = "https://files.pythonhosted.org/packages/c1/69/c75534e336b06b3fd3f76de73d89736510800e60c77c58d4e4ce18389018/sqlalchemy-2.1.6-py3-none-any.whl", hash = "sha256:106878cf3795cd3d357e2e858609f9e44f20f19b2d8e48a3532bef3f90b03fbe", size = 2063055, upload-time = "2026-10-21T18:42:10.234Z" },
+]
+
+[[package]]
+name = "sqlalchemy-cloudflare-d1"
+version = "0.4.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx" },
+    { name = "sqlalchemy" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b9/71/c5f7cd4e8c7c1aec4393c93fefc772b14bb51b94f937a3b1499be5bae5a8/sqlalchemy_cloudflare_d1-0.4.1.tar.gz", hash = "sha256:3a2cd1b8c0ac126b4853802a9d254dd02a476fd574b99a4e5b1e4a6552f8e217", size = 485872, upload-time = "2026-10-02T03:03:25.402Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/55/cc/d89dd775d8b8ca359c730f24278282af7a89a6289e1b890c7d91b6b36d4b/sqlalchemy_cloudflare_d1-0.4.1-py3-none-any.whl", hash = "sha256:a7c3fb0414e41136459c3e18a9a2565a8003c9a9726875128f7756b012b0594f", size = 34116, upload-time = "2026-10-02T03:03:23.669Z" },
 ]
 
 [[package]]

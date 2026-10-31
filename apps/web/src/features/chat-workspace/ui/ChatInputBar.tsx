@@ -53,31 +53,64 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   return (
     <div className="w-full max-w-4xl mx-auto px-4 pb-4 select-none">
       {/* 상단 컨트롤러: 모델 스위처 & 모드 안내 */}
-      <div className="flex items-center justify-between px-2 pb-2 text-[11px] font-mono">
-        <div className="flex items-center gap-2">
-          <span className="text-slate-400">CORE ENGINE:</span>
-          <div className="inline-flex rounded-lg bg-[#121620] p-0.5 border border-white/10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 px-2 pb-2 text-[11px] font-mono">
+        <div className="flex items-center gap-2 overflow-x-auto py-0.5">
+          <span className="text-slate-400 shrink-0">CORE ENGINE:</span>
+          <div className="inline-flex rounded-lg bg-[#121620] p-0.5 border border-white/10 shrink-0">
+            {/* Google Gemini 모델 2종 */}
             <button
               type="button"
               onClick={() => onChangeModel('gemini-3.8-flash')}
-              className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all ${
-                modelType === 'gemini-3.8-flash'
+              className={`px-2 py-1 rounded-md text-[10px] font-semibold transition-all cursor-pointer ${modelType === 'gemini-3.8-flash'
                   ? 'bg-[#dc2626] text-white shadow-[0_0_8px_#dc2626]'
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+                }`}
             >
-              표준 지능 (3.8 Flash)
+              3.8 Flash
             </button>
             <button
               type="button"
               onClick={() => onChangeModel('gemini-3.5-flash-lite')}
-              className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all ${
-                modelType === 'gemini-3.5-flash-lite'
+              className={`px-2 py-1 rounded-md text-[10px] font-semibold transition-all cursor-pointer ${modelType === 'gemini-3.5-flash-lite'
                   ? 'bg-[#ffb95f] text-[#472a00] shadow-[0_0_8px_#ffb95f]'
+                  : 'text-slate-400 hover:text-slate-200'
+                }`}
+            >
+              3.5 Lite
+            </button>
+
+            {/* Cloudflare Workers AI 모델 3종 */}
+            <button
+              type="button"
+              onClick={() => onChangeModel('@cf/meta/llama-3.3-70b-instruct-fp8-fast')}
+              className={`px-2 py-1 rounded-md text-[10px] font-semibold transition-all cursor-pointer ${
+                modelType === '@cf/meta/llama-3.3-70b-instruct-fp8-fast' ||
+                modelType === '@cf/meta/llama-3.3-70b-instruct'
+                  ? 'bg-[#f48120] text-white shadow-[0_0_8px_#f48120]'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              초저지연 (3.5 Lite)
+              Llama 3.3
+            </button>
+            <button
+              type="button"
+              onClick={() => onChangeModel('@cf/meta/llama-3.1-8b-instruct')}
+              className={`px-2 py-1 rounded-md text-[10px] font-semibold transition-all cursor-pointer ${modelType === '@cf/meta/llama-3.1-8b-instruct'
+                  ? 'bg-[#ea580c] text-white shadow-[0_0_8px_#ea580c]'
+                  : 'text-slate-400 hover:text-slate-200'
+                }`}
+            >
+              Llama 3.1
+            </button>
+            <button
+              type="button"
+              onClick={() => onChangeModel('@cf/deepseek-ai/deepseek-r1-distill-qwen-32b')}
+              className={`px-2 py-1 rounded-md text-[10px] font-semibold transition-all cursor-pointer ${modelType === '@cf/deepseek-ai/deepseek-r1-distill-qwen-32b'
+                  ? 'bg-[#4cd7f6] text-[#003640] shadow-[0_0_8px_#4cd7f6]'
+                  : 'text-slate-400 hover:text-slate-200'
+                }`}
+            >
+              DeepSeek R1
             </button>
           </div>
         </div>
@@ -132,11 +165,10 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
           <button
             type="button"
             onClick={onToggleListening}
-            className={`w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
-              isListening
+            className={`w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${isListening
                 ? 'bg-[#dc2626] text-white shadow-[0_0_12px_#dc2626] animate-pulse'
                 : 'text-slate-400 hover:text-[#ffb95f] hover:bg-white/[0.04]'
-            }`}
+              }`}
             title="음성 인식 활성화"
           >
             <span className="material-symbols-outlined text-[19px]">mic</span>

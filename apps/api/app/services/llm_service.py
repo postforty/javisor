@@ -1,7 +1,9 @@
 import asyncio
 from typing import AsyncGenerator
-from google import genai
-from google.genai import types
+from langchain_core.language_models.chat_models import BaseChatModel
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_cloudflare.chat_models import ChatCloudflareWorkersAI
 
 from app.core.config import settings
 from app.schemas.chat import ModelType, PersonaType
@@ -9,7 +11,7 @@ from app.schemas.chat import ModelType, PersonaType
 # 페르소나별 시스템 프롬프트 정의
 SYSTEM_PROMPTS = {
     PersonaType.CLASSIC: (
-        "당신은 영화 '아이언맨'의 인공지능 비서 JARVIS(자비스)를 모티브로 한 최첨단 지능형 개인 비서 '자비서(javisor)'입니다. "
+        "당신은 영화 '아이언맨'의 인공지능 비서 JARVIS(자비스)를 모티브로 한 최첨단 지능형 개인 비서 '자비서(jarvisor)'입니다. "
         "사용자를 항상 '보스'라고 부르며, 기품 있고 정중하며 논리적이고 절제된 영국식 신사 어조로 답변하십시오. "
         "답변은 반드시 정중한 한국어로 작성하십시오."
     ),
@@ -25,13 +27,43 @@ SYSTEM_PROMPTS = {
 }
 
 
-def get_genai_client() -> genai.Client:
-    """Google Gemini GenAI 클라이언트 인스턴스 반환"""
-    api_key = settings.GEMINI_API_KEY
-    if not api_key or api_key == "mock-api-key-for-local-dev":
-        # 유효하지 않은 키일 때도 클라이언트 자체는 생성 가능 (실제 호출 시 에러 핸들링)
-        return genai.Client(api_key=api_key or "DUMMY_KEY")
-    return genai.Client(api_key=api_key)
+# 모델 식별자 별칭 정규화 매핑 (Cloudflare 실존 라우트 자동 변환)
+MODEL_ALIASES = {
+    "@cf/meta/llama-3.3-70b-instruct": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+}
+
+
+def get_chat_model(model_name: str) -> BaseChatModel:
+    """LangChain 표준 BaseChatModel 인스턴스 반환 팩토리 함수"""
+    # 별칭이 존재하는 경우 정규화된 모델명으로 치환
+    normalized_model_name = MODEL_ALIASES.get(model_name, model_name)
+
+    if normalized_model_name.startswith("@cf/"):
+        # Cloudflare Workers AI 모델 생성
+        account_id = (settings.CLOUDFLARE_ACCOUNT_ID or "").strip()
+        api_token = (settings.CLOUDFLARE_API_TOKEN or "").strip()
+
+        # 인증 정보 미설정 시 사전 검증 안내 예외 발생
+        if not account_id or not api_token or account_id == "DUMMY_ACCOUNT_ID":
+            raise ValueError(
+                "Cloudflare 인증 정보(CLOUDFLARE_ACCOUNT_ID 또는 CLOUDFLARE_API_TOKEN)가 "
+                ".env에 설정되지 않았거나 백엔드 서버에 반영되지 않았습니다. "
+                ".env 확인 후 백엔드 API 서버를 재시작해 주십시오."
+            )
+
+        return ChatCloudflareWorkersAI(
+            model=normalized_model_name,
+            account_id=account_id,
+            api_token=api_token,
+        )
+    else:
+        # Google Gemini 모델 생성 (langchain-google-genai 기반)
+        api_key = (settings.GEMINI_API_KEY or "").strip()
+        return ChatGoogleGenerativeAI(
+            model=normalized_model_name,
+            google_api_key=api_key or "DUMMY_KEY",
+            temperature=0.7,
+        )
 
 
 async def stream_chat_response(
@@ -39,27 +71,31 @@ async def stream_chat_response(
     model_type: str = ModelType.DEFAULT.value,
     persona: str = PersonaType.CLASSIC.value,
 ) -> AsyncGenerator[str, None]:
-    """Gemini 스트리밍 응답 비동기 제너레이터"""
+    """LangChain 표준 astream() 기반 비동기 스트리밍 제너레이터"""
     system_instruction = SYSTEM_PROMPTS.get(
         persona, SYSTEM_PROMPTS[PersonaType.CLASSIC]
     )
 
-    client = get_genai_client()
-    
     try:
-        # 비동기 Gemini 텍스트 스트리밍 호출
-        response = await client.aio.models.generate_content_stream(
-            model=model_type,
-            contents=message,
-            config=types.GenerateContentConfig(
-                system_instruction=system_instruction,
-                temperature=0.7,
-            ),
-        )
-        async for chunk in response:
-            if chunk.text:
-                yield chunk.text
+        model = get_chat_model(model_type)
+        messages = [
+            SystemMessage(content=system_instruction),
+            HumanMessage(content=message),
+        ]
+
+        async for chunk in model.astream(messages):
+            if chunk.content:
+                if isinstance(chunk.content, str):
+                    yield chunk.content
+                elif isinstance(chunk.content, list):
+                    for part in chunk.content:
+                        if isinstance(part, dict) and "text" in part:
+                            yield part["text"]
+                        elif isinstance(part, str):
+                            yield part
+                else:
+                    yield str(chunk.content)
 
     except Exception as e:
-        # 예외를 상위 SSE 라우터로 전달하여 에러 이벤트(type: "error")로 처리하도록 함
+        # 상위 SSE 라우터로 예외를 전달하여 통일된 에러 이벤트로 처리
         raise RuntimeError(f"모델({model_type}) 스트리밍 통신 실패: {str(e)}") from e

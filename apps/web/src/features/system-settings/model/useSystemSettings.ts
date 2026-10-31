@@ -21,7 +21,8 @@ const DEFAULT_SETTINGS: SystemSettings = {
   e2eeEnabled: true,
 };
 
-const STORAGE_KEY = 'javisor_system_settings_v1';
+const STORAGE_KEY = 'jarvisor_system_settings_v1';
+const LEGACY_STORAGE_KEY = 'javisor_system_settings_v1';
 
 /**
  * 시스템 설정 영속화 및 환경 제어 훅 (Lazy State Initialization 패턴)
@@ -30,7 +31,7 @@ export function useSystemSettings() {
   const [settings, setSettings] = useState<SystemSettings>(() => {
     if (typeof window === 'undefined') return DEFAULT_SETTINGS;
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
+      const stored = localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
       if (stored) {
         return { ...DEFAULT_SETTINGS, ...JSON.parse(stored) };
       }

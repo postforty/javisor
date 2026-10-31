@@ -10,7 +10,7 @@ class Settings(BaseSettings):
         extra="ignore"
     )
 
-    APP_NAME: str = "자비서 (javisor) API"
+    APP_NAME: str = "자비서 (jarvisor) API"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = False
 
@@ -19,8 +19,13 @@ class Settings(BaseSettings):
     GEMINI_DEFAULT_MODEL: str = "gemini-3.8-flash"
     GEMINI_FAST_MODEL: str = "gemini-3.5-flash-lite"
 
+    # Cloudflare Workers AI 모델 설정
+    CLOUDFLARE_ACCOUNT_ID: str = ""
+    CLOUDFLARE_API_TOKEN: str = ""
+    CLOUDFLARE_DEFAULT_MODEL: str = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+
     # 데이터베이스 설정
-    DATABASE_URL: str = "sqlite:///./javisor.db"
+    DATABASE_URL: str = "sqlite:///./jarvisor.db"
 
     # CORS 허용 도메인 목록
     CORS_ORIGINS: List[str] = [

@@ -204,7 +204,7 @@ export function useSessionHistory() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `javisor-session-${id}.json`;
+        a.download = `jarvisor-session-${id}.json`;
         a.click();
         URL.revokeObjectURL(url);
       }

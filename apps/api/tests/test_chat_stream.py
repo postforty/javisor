@@ -44,6 +44,39 @@ async def test_chat_stream_success():
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "cf_model",
+    [
+        "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+        "@cf/meta/llama-3.3-70b-instruct",
+        "@cf/meta/llama-3.1-8b-instruct",
+        "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+    ],
+)
+async def test_chat_stream_cloudflare_models_success(cf_model: str):
+    """Cloudflare Workers AI 3개 모델 요청에 대한 스트리밍 응답 검증"""
+    async def mock_stream_chunks(*args, **kwargs):
+        yield "클라우드플레어 엣지 응답입니다."
+
+    with patch("app.api.v1.chat.stream_chat_response", side_effect=mock_stream_chunks):
+        transport = ASGITransport(app=app)
+        async with AsyncClient(transport=transport, base_url="http://test") as client:
+            payload = {
+                "message": "상태 보고",
+                "model_type": cf_model,
+                "persona": "classic",
+            }
+            response = await client.post("/api/v1/chat/stream", json=payload)
+            assert response.status_code == 200
+            assert "text/event-stream" in response.headers["content-type"]
+            lines = [line for line in response.text.split("\n\n") if line.strip()]
+            assert len(lines) >= 2
+            last_event = json.loads(lines[-1].replace("data: ", ""))
+            assert last_event["type"] == "done"
+            assert last_event["model"] == cf_model
+
+
+@pytest.mark.asyncio
 async def test_chat_stream_invalid_model():
     """지원하지 않는 모델 요청 시 422 또는 에러 이벤트 반환 검증"""
     transport = ASGITransport(app=app)

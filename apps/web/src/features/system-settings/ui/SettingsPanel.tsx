@@ -74,24 +74,21 @@ export const SettingsPanel: React.FC = () => {
                 key={p.id}
                 type="button"
                 onClick={() => updateSetting('persona', p.id)}
-                className={`text-left p-4 rounded-xl transition-all flex flex-col justify-between gap-2 border cursor-pointer ${
-                  isSelected
+                className={`text-left p-4 rounded-xl transition-all flex flex-col justify-between gap-2 border cursor-pointer ${isSelected
                     ? 'bg-[#1c1f2a] border-[#dc2626]/60 shadow-[0_0_16px_rgba(220,38,38,0.2)]'
                     : 'bg-[#0a0e18]/80 hover:bg-[#171b26] border-white/[0.06]'
-                }`}
+                  }`}
               >
                 <div className="flex items-center justify-between w-full">
                   <span
-                    className={`font-['Space_Grotesk'] text-xs font-bold ${
-                      isSelected ? 'text-[#ffb4ab]' : 'text-slate-200'
-                    }`}
+                    className={`font-['Space_Grotesk'] text-xs font-bold ${isSelected ? 'text-[#ffb4ab]' : 'text-slate-200'
+                      }`}
                   >
                     {p.title}
                   </span>
                   <span
-                    className={`material-symbols-outlined text-[18px] ${
-                      isSelected ? 'text-[#ff4444]' : 'text-slate-600'
-                    }`}
+                    className={`material-symbols-outlined text-[18px] ${isSelected ? 'text-[#ff4444]' : 'text-slate-600'
+                      }`}
                   >
                     {isSelected ? 'check_circle' : 'radio_button_unchecked'}
                   </span>
@@ -119,14 +116,12 @@ export const SettingsPanel: React.FC = () => {
             <button
               type="button"
               onClick={() => updateSetting('wakeWordEnabled', !settings.wakeWordEnabled)}
-              className={`w-11 h-6 rounded-full p-0.5 transition-colors relative cursor-pointer ${
-                settings.wakeWordEnabled ? 'bg-[#dc2626]' : 'bg-[#262a35]'
-              }`}
+              className={`w-11 h-6 rounded-full p-0.5 transition-colors relative cursor-pointer ${settings.wakeWordEnabled ? 'bg-[#dc2626]' : 'bg-[#262a35]'
+                }`}
             >
               <div
-                className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform ${
-                  settings.wakeWordEnabled ? 'translate-x-5' : 'translate-x-0'
-                }`}
+                className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform ${settings.wakeWordEnabled ? 'translate-x-5' : 'translate-x-0'
+                  }`}
               />
             </button>
           </div>
@@ -144,14 +139,12 @@ export const SettingsPanel: React.FC = () => {
             <button
               type="button"
               onClick={() => updateSetting('bargeInEnabled', !settings.bargeInEnabled)}
-              className={`w-11 h-6 rounded-full p-0.5 transition-colors relative cursor-pointer ${
-                settings.bargeInEnabled ? 'bg-[#dc2626]' : 'bg-[#262a35]'
-              }`}
+              className={`w-11 h-6 rounded-full p-0.5 transition-colors relative cursor-pointer ${settings.bargeInEnabled ? 'bg-[#dc2626]' : 'bg-[#262a35]'
+                }`}
             >
               <div
-                className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform ${
-                  settings.bargeInEnabled ? 'translate-x-5' : 'translate-x-0'
-                }`}
+                className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform ${settings.bargeInEnabled ? 'translate-x-5' : 'translate-x-0'
+                  }`}
               />
             </button>
           </div>
@@ -165,28 +158,27 @@ export const SettingsPanel: React.FC = () => {
             memory
           </span>
           <h2 className="font-['Space_Grotesk'] text-base font-semibold text-slate-100">
-            지능형 코어 엔진 (Google Gemini)
+            지능형 코어 엔진 (LangChain Multi-Engine)
           </h2>
         </div>
 
-        {/* 2대 모델 엔진 라디오 카드 */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {/* 표준 지능 모드 */}
+        {/* 5대 모델 엔진 라디오 카드 그리드 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {/* 1. Google Gemini 3.8 Flash */}
           <button
             type="button"
             onClick={() => updateSetting('defaultModel', 'gemini-3.8-flash')}
-            className={`text-left p-4 rounded-xl border transition-all cursor-pointer flex flex-col gap-1.5 ${
-              settings.defaultModel === 'gemini-3.8-flash'
+            className={`text-left p-4 rounded-xl border transition-all cursor-pointer flex flex-col gap-1.5 ${settings.defaultModel === 'gemini-3.8-flash'
                 ? 'bg-[#1c1f2a] border-[#dc2626]/50 shadow-[0_0_16px_rgba(220,38,38,0.2)]'
                 : 'bg-[#0a0e18]/80 hover:bg-[#171b26] border-white/[0.06]'
-            }`}
+              }`}
           >
             <div className="flex items-center justify-between">
               <span className="font-['Space_Grotesk'] text-xs font-bold text-slate-100">
-                MK-85 Quantum (gemini-3.8-flash)
+                MK-85 Quantum (3.8 Flash)
               </span>
               <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#dc2626]/20 text-[#ffb4ab] border border-[#dc2626]/40">
-                표준 지능
+                Google
               </span>
             </div>
             <p className="font-sans text-[11px] text-slate-400">
@@ -194,26 +186,93 @@ export const SettingsPanel: React.FC = () => {
             </p>
           </button>
 
-          {/* 초저지연 빠른 응답 모드 */}
+          {/* 2. Google Gemini 3.5 Flash-Lite */}
           <button
             type="button"
             onClick={() => updateSetting('defaultModel', 'gemini-3.5-flash-lite')}
-            className={`text-left p-4 rounded-xl border transition-all cursor-pointer flex flex-col gap-1.5 ${
-              settings.defaultModel === 'gemini-3.5-flash-lite'
+            className={`text-left p-4 rounded-xl border transition-all cursor-pointer flex flex-col gap-1.5 ${settings.defaultModel === 'gemini-3.5-flash-lite'
                 ? 'bg-[#1c1f2a] border-[#ffb95f]/50 shadow-[0_0_16px_rgba(255,185,95,0.2)]'
+                : 'bg-[#0a0e18]/80 hover:bg-[#171b26] border-white/[0.06]'
+              }`}
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-['Space_Grotesk'] text-xs font-bold text-slate-100">
+                Ultra-Lite (3.5 Lite)
+              </span>
+              <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#ffb95f]/20 text-[#ffb95f] border border-[#ffb95f]/40">
+                Google
+              </span>
+            </div>
+            <p className="font-sans text-[11px] text-slate-400">
+              지연 시간 극소화, 일상 질의 응답, 빠른 단답형 브리핑 최적화 모드
+            </p>
+          </button>
+
+          {/* 3. Cloudflare Llama 3.3 70B */}
+          <button
+            type="button"
+            onClick={() => updateSetting('defaultModel', '@cf/meta/llama-3.3-70b-instruct-fp8-fast')}
+            className={`text-left p-4 rounded-xl border transition-all cursor-pointer flex flex-col gap-1.5 ${
+              settings.defaultModel === '@cf/meta/llama-3.3-70b-instruct-fp8-fast' ||
+              settings.defaultModel === '@cf/meta/llama-3.3-70b-instruct'
+                ? 'bg-[#1c1f2a] border-[#f48120]/50 shadow-[0_0_16px_rgba(244,129,32,0.2)]'
                 : 'bg-[#0a0e18]/80 hover:bg-[#171b26] border-white/[0.06]'
             }`}
           >
             <div className="flex items-center justify-between">
               <span className="font-['Space_Grotesk'] text-xs font-bold text-slate-100">
-                Ultra-Lite Core (gemini-3.5-flash-lite)
+                Llama 3.3 (70B)
               </span>
-              <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#ffb95f]/20 text-[#ffb95f] border border-[#ffb95f]/40">
-                초저지연
+              <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#f48120]/20 text-[#f48120] border border-[#f48120]/40">
+                Cloudflare
               </span>
             </div>
             <p className="font-sans text-[11px] text-slate-400">
-              지연 시간 극소화, 일상 질의 응답, 빠른 단답형 브리핑 최적화 모드
+              글로벌 엣지 인프라 기반 플래그십 오픈소스 대형 언어 모델
+            </p>
+          </button>
+
+          {/* 4. Cloudflare Llama 3.1 8B */}
+          <button
+            type="button"
+            onClick={() => updateSetting('defaultModel', '@cf/meta/llama-3.1-8b-instruct')}
+            className={`text-left p-4 rounded-xl border transition-all cursor-pointer flex flex-col gap-1.5 ${settings.defaultModel === '@cf/meta/llama-3.1-8b-instruct'
+                ? 'bg-[#1c1f2a] border-[#ea580c]/50 shadow-[0_0_16px_rgba(234,88,12,0.2)]'
+                : 'bg-[#0a0e18]/80 hover:bg-[#171b26] border-white/[0.06]'
+              }`}
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-['Space_Grotesk'] text-xs font-bold text-slate-100">
+                Llama 3.1 (8B)
+              </span>
+              <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#ea580c]/20 text-[#ff8c42] border border-[#ea580c]/40">
+                Cloudflare
+              </span>
+            </div>
+            <p className="font-sans text-[11px] text-slate-400">
+              초저비용 초경량 엣지 아키텍처, 신속한 텔레메트리 연산에 최적화
+            </p>
+          </button>
+
+          {/* 5. Cloudflare DeepSeek R1 */}
+          <button
+            type="button"
+            onClick={() => updateSetting('defaultModel', '@cf/deepseek-ai/deepseek-r1-distill-qwen-32b')}
+            className={`text-left p-4 rounded-xl border transition-all cursor-pointer flex flex-col gap-1.5 ${settings.defaultModel === '@cf/deepseek-ai/deepseek-r1-distill-qwen-32b'
+                ? 'bg-[#1c1f2a] border-[#4cd7f6]/50 shadow-[0_0_16px_rgba(76,215,246,0.2)]'
+                : 'bg-[#0a0e18]/80 hover:bg-[#171b26] border-white/[0.06]'
+              }`}
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-['Space_Grotesk'] text-xs font-bold text-slate-100">
+                DeepSeek R1 (32B)
+              </span>
+              <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#4cd7f6]/20 text-[#4cd7f6] border border-[#4cd7f6]/40">
+                Cloudflare
+              </span>
+            </div>
+            <p className="font-sans text-[11px] text-slate-400">
+              심층 다단계 추론(Reasoning) 및 고난도 수학/논리 분석 특화 모델
             </p>
           </button>
         </div>
@@ -264,14 +323,12 @@ export const SettingsPanel: React.FC = () => {
           <button
             type="button"
             onClick={() => updateSetting('e2eeEnabled', !settings.e2eeEnabled)}
-            className={`w-11 h-6 rounded-full p-0.5 transition-colors relative cursor-pointer ${
-              settings.e2eeEnabled ? 'bg-[#dc2626]' : 'bg-[#262a35]'
-            }`}
+            className={`w-11 h-6 rounded-full p-0.5 transition-colors relative cursor-pointer ${settings.e2eeEnabled ? 'bg-[#dc2626]' : 'bg-[#262a35]'
+              }`}
           >
             <div
-              className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform ${
-                settings.e2eeEnabled ? 'translate-x-5' : 'translate-x-0'
-              }`}
+              className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform ${settings.e2eeEnabled ? 'translate-x-5' : 'translate-x-0'
+                }`}
             />
           </button>
         </div>

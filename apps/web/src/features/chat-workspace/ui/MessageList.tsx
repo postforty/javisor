@@ -57,7 +57,7 @@ export const MessageList: React.FC<MessageListProps> = ({
                 <div className="w-2 h-2 rounded-full bg-[#4cd7f6] shadow-[0_0_6px_#4cd7f6]" />
               )}
               <span className="font-['Space_Grotesk'] text-[11px] font-semibold uppercase tracking-wider text-slate-300">
-                {isUser ? 'T. STARK' : 'JAVISOR MK-85'}
+                {isUser ? 'T. STARK' : 'JARVISOR MK-85'}
               </span>
               {!isUser && msg.model && (
                 <span className="font-mono text-[9px] px-1.5 py-0.2 rounded bg-[#171b26] text-[#4cd7f6] border border-[#4cd7f6]/30">

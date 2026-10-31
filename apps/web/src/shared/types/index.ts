@@ -1,8 +1,14 @@
 /**
- * 자비서 (javisor) 공통 도메인 타입 정의
+ * 자비서 (jarvisor) 공통 도메인 타입 정의
  */
 
-export type ModelType = 'gemini-3.8-flash' | 'gemini-3.5-flash-lite';
+export type ModelType =
+  | 'gemini-3.8-flash'
+  | 'gemini-3.5-flash-lite'
+  | '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
+  | '@cf/meta/llama-3.3-70b-instruct'
+  | '@cf/meta/llama-3.1-8b-instruct'
+  | '@cf/deepseek-ai/deepseek-r1-distill-qwen-32b';
 
 export type PersonaType = 'classic' | 'brief' | 'tactical';
 

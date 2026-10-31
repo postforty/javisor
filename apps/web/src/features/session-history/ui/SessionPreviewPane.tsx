@@ -106,7 +106,7 @@ export const SessionPreviewPane: React.FC<SessionPreviewPaneProps> = ({
               }`}
             >
               <div className="font-mono text-[9px] text-slate-500 mb-0.5 uppercase">
-                {m.role === 'user' ? 'USER' : 'JAVISOR'}
+                {m.role === 'user' ? 'USER' : 'JARVISOR'}
               </div>
               <p className="line-clamp-2">{m.content}</p>
             </div>

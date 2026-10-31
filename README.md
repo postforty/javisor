@@ -1,4 +1,4 @@
-# 자비서 (javisor)
+# 자비서 (jarvisor)
 
 영화 '아이언맨'의 JARVIS HUD 비주얼 테마(Kinetic Arc HUD)를 모티브로 한 미래지향적 인터페이스 기반 지능형 개인 비서 서비스입니다.
 

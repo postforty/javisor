@@ -5,7 +5,7 @@ from sqlmodel import SQLModel, create_engine, Session as DBSession
 from app.main import app
 from app.db.session import get_db
 
-TEST_DB_PATH = "./test_javisor.db"
+TEST_DB_PATH = "./test_jarvisor.db"
 test_engine = create_engine(
     f"sqlite:///{TEST_DB_PATH}",
     connect_args={"check_same_thread": False},
