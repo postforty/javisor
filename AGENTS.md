@@ -18,7 +18,7 @@
 ## 4. 개발 원칙 (Vertical Slice E2E)
 큰 단위 개발 대신 **"작은 기능 단위 E2E 수직 슬라이스"** 방식으로 개발합니다:
 1. **스펙 정의**: 기능 요구사항 및 데이터 스키마 확정
-2. **백엔드 (TDD)**: 기능 개발 시 `.agents/workflows/tdd.md` 워크플로우(`/tdd`)를 필수로 적용하며, `pytest`(`npm run test:api`) 기반으로 Red ➔ Green ➔ Refactor 사이클 준수
+2. **백엔드 (TDD)**: 기능 개발 시 `.agents/skills/tdd/SKILL.md` 스킬(`/tdd`)을 필수로 적용하며, `pytest`(`npm run test:api`) 기반으로 Red ➔ Green ➔ Refactor 사이클 준수
 3. **프런트엔드 (FSD)**: 기능별 격리 개발
    - `app/`: 라우팅 진입점 역할만 수행
    - `features/`: 사용자 인터랙션 및 상태 로직 (`ui`, `model`, `api`)
