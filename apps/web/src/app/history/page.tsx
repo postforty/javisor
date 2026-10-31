@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { Sidebar } from '@/shared/ui/Sidebar';
 import { Header } from '@/shared/ui/Header';
 import { MobileNav } from '@/shared/ui/MobileNav';
@@ -10,6 +11,7 @@ import { HistoryTimeline } from '@/features/session-history/ui/HistoryTimeline';
 import { SessionPreviewPane } from '@/features/session-history/ui/SessionPreviewPane';
 
 export default function HistoryPage() {
+  const router = useRouter();
   const {
     sessions,
     selectedSessionId,
@@ -24,14 +26,18 @@ export default function HistoryPage() {
     exportSession,
   } = useSessionHistory();
 
+  const handleNewSession = () => {
+    router.push('/');
+  };
+
   return (
     <div className="min-h-screen bg-[#08090C] text-[#dfe2f1] flex flex-col md:flex-row">
       {/* 데스크톱 사이드바 */}
-      <Sidebar />
+      <Sidebar onNewSession={handleNewSession} />
 
       {/* 메인 컨텐츠 영역 */}
       <div className="flex-1 md:pl-64 flex flex-col min-h-screen">
-        <Header />
+        <Header onNewSession={handleNewSession} />
 
         <main className="flex-1 w-full pt-16 pb-20 md:pb-12 px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col gap-6">
           {/* 상단 검색 및 탭 필터 */}

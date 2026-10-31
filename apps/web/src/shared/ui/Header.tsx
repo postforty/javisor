@@ -64,8 +64,11 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={onNewSession}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#121620] hover:bg-[#181e2b] text-slate-200 hover:text-white shadow-[0_2px_10px_rgba(0,0,0,0.4)] active:scale-95 transition-all text-[11px] font-mono tracking-wider border border-white/10 hover:border-[#ffb95f]/40 cursor-pointer"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#dc2626] shadow-[0_0_6px_#dc2626]" />
-            <span className="font-medium">+ NEW SESSION</span>
+            {/* 확대된 + 기호 */}
+            <span className="text-[15px] font-bold leading-none text-slate-100 select-none">
+              +
+            </span>
+            <span className="font-medium">NEW SESSION</span>
           </button>
         </div>
       </div>

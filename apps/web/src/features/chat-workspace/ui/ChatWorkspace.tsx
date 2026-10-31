@@ -8,23 +8,31 @@ import { ChatInputBar } from './ChatInputBar';
 import { useChatStream } from '../model/useChatStream';
 
 interface ChatWorkspaceProps {
-  onNewSessionRef?: (handler: () => void) => void;
+  /** 외부에서 주입된 채팅 스트림 인스턴스 (선택적) */
+  chatStream?: ReturnType<typeof useChatStream>;
 }
 
 /**
  * 자비서 메인 대화 워크스페이스 컨테이너
  */
-export const ChatWorkspace: React.FC<ChatWorkspaceProps> = () => {
+export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
+  chatStream: externalChatStream,
+}) => {
   const [isListening, setIsListening] = useState(false);
+  const internalChatStream = useChatStream();
 
+  // 상위에서 전달된 chatStream이 있으면 우선 사용하고 없으면 내부 인스턴스 사용
   const {
     messages,
     isGenerating,
+    isDelayed,
     modelType,
     setModelType,
     sendMessage,
     stopGenerating,
-  } = useChatStream();
+    retryWithAlternativeModel,
+    dismissDelayNotice,
+  } = externalChatStream || internalChatStream;
 
   const handleSelectQuickAction = (promptText: string) => {
     sendMessage(promptText);
@@ -105,7 +113,14 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = () => {
               </div>
               <span className="text-slate-400">SESSION MESSAGES: {messages.length}</span>
             </div>
-            <MessageList messages={messages} isGenerating={isGenerating} />
+            <MessageList
+              messages={messages}
+              isGenerating={isGenerating}
+              isDelayed={isDelayed}
+              currentModel={modelType}
+              onSwitchModel={retryWithAlternativeModel}
+              onDismissDelay={dismissDelayNotice}
+            />
           </div>
         )}
       </div>
@@ -116,6 +131,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = () => {
           onSendMessage={sendMessage}
           onStopGenerating={stopGenerating}
           isGenerating={isGenerating}
+          isDelayed={isDelayed}
           modelType={modelType}
           onChangeModel={setModelType}
           isListening={isListening}

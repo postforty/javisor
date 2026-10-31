@@ -7,6 +7,7 @@ interface ChatInputBarProps {
   onSendMessage: (text: string) => void;
   onStopGenerating: () => void;
   isGenerating: boolean;
+  isDelayed?: boolean;
   modelType: ModelType;
   onChangeModel: (model: ModelType) => void;
   isListening: boolean;
@@ -20,6 +21,7 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
   onSendMessage,
   onStopGenerating,
   isGenerating,
+  isDelayed = false,
   modelType,
   onChangeModel,
   isListening,
@@ -78,10 +80,17 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
         </div>
 
         {isGenerating && (
-          <div className="flex items-center gap-1.5 text-[#4cd7f6] animate-pulse">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#4cd7f6]" />
-            <span>스트리밍 답변 생성 중 (Barge-in 대기)</span>
-          </div>
+          isDelayed ? (
+            <div className="flex items-center gap-1.5 text-[#ffb95f] animate-pulse">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ffb95f] shadow-[0_0_6px_#ffb95f]" />
+              <span>통신 지연 감지 (엔진 전환 가능)</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 text-[#4cd7f6] animate-pulse">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#4cd7f6]" />
+              <span>스트리밍 답변 생성 중 (Barge-in 대기)</span>
+            </div>
+          )
         )}
       </div>
 
