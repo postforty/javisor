@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ArcReactorCore } from '@/shared/ui/ArcReactorCore';
 import { QuickActionGrid } from './QuickActionGrid';
 import { MessageList } from './MessageList';
@@ -20,6 +20,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
 }) => {
   const [isListening, setIsListening] = useState(false);
   const internalChatStream = useChatStream();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // 상위에서 전달된 chatStream이 있으면 우선 사용하고 없으면 내부 인스턴스 사용
   const {
@@ -32,7 +33,13 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
     stopGenerating,
     retryWithAlternativeModel,
     dismissDelayNotice,
+    resetCount,
   } = externalChatStream || internalChatStream;
+
+  // 새로운 세션이 생성되거나 컴포넌트 마운트 시 하단 인풋창에 커서 위치 (포커스)
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [resetCount]);
 
   const handleSelectQuickAction = (promptText: string) => {
     sendMessage(promptText);
@@ -128,6 +135,7 @@ export const ChatWorkspace: React.FC<ChatWorkspaceProps> = ({
       {/* 하단 고정 입력 컨트롤 바 */}
       <div className="w-full z-20 bg-gradient-to-t from-[#08090C] via-[#08090C]/90 to-transparent pt-3">
         <ChatInputBar
+          inputRef={inputRef}
           onSendMessage={sendMessage}
           onStopGenerating={stopGenerating}
           isGenerating={isGenerating}

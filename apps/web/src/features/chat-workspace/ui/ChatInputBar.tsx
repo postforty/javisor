@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { ModelType } from '@/shared/types';
 
 interface ChatInputBarProps {
+  /** 텍스트 입력 엘리먼트 참조 */
+  inputRef?: React.RefObject<HTMLInputElement | null>;
   onSendMessage: (text: string) => void;
   onStopGenerating: () => void;
   isGenerating: boolean;
@@ -18,6 +20,7 @@ interface ChatInputBarProps {
  * 하단 캡슐형 명령 입력 및 모델 스위칭 컨트롤 바 컴포넌트
  */
 export const ChatInputBar: React.FC<ChatInputBarProps> = ({
+  inputRef,
   onSendMessage,
   onStopGenerating,
   isGenerating,
@@ -109,10 +112,12 @@ export const ChatInputBar: React.FC<ChatInputBarProps> = ({
 
         {/* 텍스트 입력창 */}
         <input
+          ref={inputRef}
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={handleKeyDown}
+          autoFocus
           placeholder={
             isListening
               ? '자비서 음성 센서 수신 중... 말씀하십시오.'

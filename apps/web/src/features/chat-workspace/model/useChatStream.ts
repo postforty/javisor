@@ -24,6 +24,8 @@ export function useChatStream({
   const [modelType, setModelType] = useState<ModelType>(initialModel);
   const [persona, setPersona] = useState<PersonaType>(initialPersona);
   const [isDelayed, setIsDelayed] = useState<boolean>(false);
+  // 세션 초기화(리셋) 횟수 추적 상태 (인풋창 자동 포커스 트리거용)
+  const [resetCount, setResetCount] = useState<number>(0);
 
   // 진행 중인 스트리밍 요청 AbortController 참조
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -145,11 +147,23 @@ export function useChatStream({
               } else if (data.type === 'done') {
                 if (data.session_id) setSessionId(data.session_id);
               } else if (data.type === 'error') {
-                accumulatedText += `\n[통신 오류: ${data.message}]`;
+                const errorText = data.message || '';
+                const isOverloaded =
+                  errorText.includes('503') ||
+                  errorText.includes('high demand') ||
+                  errorText.includes('UNAVAILABLE') ||
+                  errorText.includes('과부하');
+
                 setMessages((prev) =>
                   prev.map((msg) =>
                     msg.id === assistantMessageId
-                      ? { ...msg, content: accumulatedText }
+                      ? {
+                          ...msg,
+                          errorInfo: {
+                            message: errorText,
+                            isOverloaded,
+                          },
+                        }
                       : msg
                   )
                 );
@@ -172,12 +186,21 @@ export function useChatStream({
         } else {
           const errorMsg =
             err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.';
+          const isOverloaded =
+            errorMsg.includes('503') ||
+            errorMsg.includes('high demand') ||
+            errorMsg.includes('UNAVAILABLE') ||
+            errorMsg.includes('과부하');
+
           setMessages((prev) =>
             prev.map((msg) =>
               msg.id === assistantMessageId
                 ? {
                     ...msg,
-                    content: `[자비서 코어 경보] 통신 링크가 원활하지 않습니다: ${errorMsg}`,
+                    errorInfo: {
+                      message: errorMsg,
+                      isOverloaded,
+                    },
                   }
                 : msg
             )
@@ -270,6 +293,7 @@ export function useChatStream({
               id: newAssistantId,
               model: newModel,
               content: '',
+              errorInfo: undefined,
             },
           ];
         }
@@ -290,6 +314,8 @@ export function useChatStream({
     setMessages([]);
     setSessionId(null);
     lastUserMessageRef.current = '';
+    // 세션 초기화 카운트를 증가시켜 입력창 포커스 트리거
+    setResetCount((prev) => prev + 1);
   }, [stopGenerating]);
 
   return {
@@ -306,5 +332,6 @@ export function useChatStream({
     retryWithAlternativeModel,
     dismissDelayNotice,
     clearSession,
+    resetCount,
   };
 }
